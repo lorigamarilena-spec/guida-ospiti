@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guida Ospiti — Marina di Sorso</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5efe6;
+    --sea: #2a7fa5;
+    --sea-dark: #1a5f7a;
+    --sea-light: #e8f4f9;
+    --coral: #d4704a;
+    --text: #2c2c2c;
+    --muted: #7a7a7a;
+    --white: #ffffff;
+    --gold: #c9a84c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Lato', sans-serif; background: var(--sand); color: var(--text); min-height: 100vh; }
+
+  /* LANGUAGE SWITCHER */
+  .lang-bar {
+    background: var(--sea-dark);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .lang-btn {
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.75);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+  .lang-btn:hover { background: rgba(255,255,255,0.15); color: white; }
+  .lang-btn.active { background: white; color: var(--sea-dark); border-color: white; }
+
+  /* CONTENT SECTIONS */
+  .lang-content { display: none; }
+  .lang-content.visible { display: block; }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(160deg, var(--sea-dark) 0%, var(--sea) 60%, #4da8c8 100%);
+    color: white;
+    padding: 48px 24px 56px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 40px;
+    background: var(--sand);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+  header .wave-deco { font-size: 2rem; letter-spacing: 8px; opacity: 0.45; margin-bottom: 12px; }
+  header h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; letter-spacing: 1px; line-height: 1.2; }
+  header p.subtitle { font-size: 0.95rem; font-weight: 300; margin-top: 10px; opacity: 0.85; letter-spacing: 2px; text-transform: uppercase; }
+
+  /* MAIN */
+  main { max-width: 760px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  .section-title { display: flex; align-items: center; gap: 12px; margin: 40px 0 18px; }
+  .section-title .icon { font-size: 1.5rem; width: 44px; height: 44px; background: var(--sea); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 3px 10px rgba(42,127,165,0.25); }
+  .section-title h2 { font-family: 'Playfair Display', serif; font-size: 1.45rem; color: var(--sea-dark); border-bottom: 2px solid var(--gold); padding-bottom: 4px; }
+
+  .card { background: var(--white); border-radius: 14px; padding: 20px 22px; margin-bottom: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); border-left: 4px solid var(--sea); transition: transform 0.18s, box-shadow 0.18s; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.11); }
+  .card.beach-card { border-left-color: var(--gold); }
+  .card.pizza-card { border-left-color: var(--coral); }
+  .card.bar-card { border-left-color: #6ab187; }
+  .card.stab-card { border-left-color: var(--sea-dark); }
+
+  .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+  .card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--sea-dark); line-height: 1.3; }
+  .rating { background: var(--sea-light); color: var(--sea-dark); font-size: 0.78rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; display: flex; align-items: center; gap: 4px; }
+  .card p.desc { font-size: 0.93rem; color: #444; line-height: 1.6; margin-bottom: 10px; }
+  .card-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; font-size: 0.83rem; color: var(--muted); }
+  .card-meta span { display: flex; align-items: center; gap: 5px; }
+
+  .tag { display: inline-block; background: #fff3ec; color: var(--coral); border: 1px solid #f4c0a0; border-radius: 20px; font-size: 0.77rem; font-weight: 700; padding: 2px 10px; margin-bottom: 6px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .tag.green { background: #edf8f1; color: #2e7d52; border-color: #a8d8b9; }
+  .tag.blue { background: var(--sea-light); color: var(--sea-dark); border-color: #a0cfe0; }
+  .tag.gold { background: #fffbec; color: #a07820; border-color: #e0c97a; }
+
+  a.maps-link { display: inline-flex; align-items: center; gap: 6px; color: var(--sea); font-size: 0.85rem; font-weight: 700; text-decoration: none; padding: 5px 12px; border: 1.5px solid var(--sea); border-radius: 20px; transition: background 0.18s, color 0.18s; margin-top: 4px; }
+  a.maps-link:hover { background: var(--sea); color: white; }
+  a.tel-link { display: inline-flex; align-items: center; gap: 6px; color: var(--coral); font-size: 0.85rem; font-weight: 700; text-decoration: none; padding: 5px 12px; border: 1.5px solid var(--coral); border-radius: 20px; transition: background 0.18s, color 0.18s; margin-top: 4px; margin-left: 6px; }
+  a.tel-link:hover { background: var(--coral); color: white; }
+
+  .note-box { background: linear-gradient(135deg, var(--sea-light), #fff); border: 1px solid #c0dce8; border-radius: 14px; padding: 18px 22px; margin-top: 44px; font-size: 0.9rem; color: #3a5a6a; line-height: 1.7; }
+  .note-box h4 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--sea-dark); margin-bottom: 8px; }
+
+  footer { text-align: center; padding: 24px; font-size: 0.8rem; color: var(--muted); letter-spacing: 1px; }
+
+  @media (max-width: 520px) {
+    .card-header { flex-direction: column; }
+    header h1 { font-size: 1.7rem; }
+    .lang-btn { padding: 4px 10px; font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LANGUAGE BAR -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('it')">🇮🇹 Italiano</button>
+  <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
+  <button class="lang-btn" onclick="setLang('fr')">🇫🇷 Français</button>
+  <button class="lang-btn" onclick="setLang('de')">🇩🇪 Deutsch</button>
+  <button class="lang-btn" onclick="setLang('es')">🇪🇸 Español</button>
+</div>
+
+<!-- ============================================================ -->
+<!-- ITALIANO -->
+<!-- ============================================================ -->
+<div class="lang-content visible" id="lang-it">
+<header>
+  <div class="wave-deco">〰 〰 〰</div>
+  <h1>Benvenuti a Marina di Sorso</h1>
+  <p class="subtitle">Guida ai luoghi del cuore — per i nostri ospiti</p>
+</header>
+<main>
+  <div class="section-title"><div class="icon">🏖️</div><h2>Bar in Spiaggia</h2></div>
+
+  <div class="card">
+    <div class="tag">⭐ Specialità: Panini & Piatti composti</div>
+    <div class="card-header"><h3>Pedifreddu</h3><span class="rating">⭐ 4.4 · 108 rec.</span></div>
+    <p class="desc">Un punto di riferimento direttamente sul mare. La vera specialità sono i panini farciti e i piatti composti preparati al momento — ideali per un pranzo fresco senza rinunciare al sapore. Vista sul mare e aperto anche nel pomeriggio. Orario: 7:00 – 23:30.</p>
+    <div class="card-meta"><span>📍 SP81, Marina di Sorso</span><span>📞 <a href="tel:+390796153515" style="color:inherit">079 615 3515</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJxT42olt93BIRwGiMHfXOznc" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card">
+    <div class="tag">⭐ Specialità: Calamari fritti</div>
+    <div class="card-header"><h3>Baja Cuggoni</h3><span class="rating">⭐ 4.2 · 331 rec.</span></div>
+    <p class="desc">Locale vivace al 9° Pettine, aperto fino a tarda notte. I calamari fritti sono il piatto cult. Perfetto al tramonto, con eventi e musica live. Orario: 8:00 – 2:00.</p>
+    <div class="card-meta"><span>📍 Discesa a Mare 9 Pettine</span><span>📞 <a href="tel:+393318530235" style="color:inherit">331 853 0235</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJG9hvxQ973BIRc7yWA8_cd_k" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🐟</div><h2>Ristoranti</h2></div>
+
+  <div class="card">
+    <div class="tag blue">Pesce fresco · Ambiente raffinato</div>
+    <div class="card-header"><h3>La Risacca</h3><span class="rating">⭐ 4.2 · 3.238 rec.</span></div>
+    <p class="desc">La scelta ideale per una serata speciale. Pesce freschissimo, personale professionale e terrazza con vista mare mozzafiato. Ottima selezione di vini. Consigliabile prenotare. Orario: 7:30 – 2:00.</p>
+    <div class="card-meta"><span>📍 SP81, Marina di Sorso</span><span>📞 <a href="tel:+39079359040" style="color:inherit">079 359040</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ4XLmv7dk3BIRCrPkskfdx8k" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card">
+    <div class="tag green">Pesce fresco · Ottimo rapporto qualità/prezzo</div>
+    <div class="card-header"><h3>Al Primo Ristobar</h3><span class="rating">⭐ 4.5 · 2.224 rec.</span></div>
+    <p class="desc">Ottimo pesce, porzioni generose e prezzi accessibili. Atmosfera autentica, frequentato dai locali. Da provare: fregola con frutti di mare e spaghetti allo scoglio. Orario: 9:00 – 23:00.</p>
+    <div class="card-meta"><span>📍 Discesa a mare 7, Sorso</span><span>📞 <a href="tel:+393450754909" style="color:inherit">345 075 4909</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ-W7Kf3173BIRlE17o_xuSPI" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🍕</div><h2>Pizza a Domicilio</h2></div>
+
+  <div class="card pizza-card">
+    <div class="tag">🔥 Forno a legna · Consegna a domicilio</div>
+    <div class="card-header"><h3>Arte Pizza</h3><span class="rating">⭐ 4.2 · 128 rec.</span></div>
+    <p class="desc">La migliore pizza di Sorso, cotta a legna. Anche panini, fainè e gastronomia. Aperta mar–dom dalle 19:00. Chiusa il lunedì.</p>
+    <div class="card-meta"><span>📍 Piazza Marginesu 14/a, Sorso</span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ6VazDq1k3BIRAr_aBlVxojc" target="_blank">🗺 Google Maps</a>
+    <a class="tel-link" href="tel:+39079350502">📞 079 350502</a>
+  </div>
+
+  <div class="section-title"><div class="icon">☕</div><h2>Bar per la Colazione</h2></div>
+
+  <div class="card bar-card">
+    <div class="card-header"><h3>Glamour Café</h3><span class="rating">⭐ 4.7 · 309 rec.</span></div>
+    <p class="desc">Uno dei bar più amati di Sorso per qualità del caffè e cortesia. Lun–Sab 6:00–21:00 · Dom 7:00–14:00.</p>
+    <div class="card-meta"><span>📍 Via Cappuccini 78, Sorso</span><span>📞 <a href="tel:+393498481736" style="color:inherit">349 848 1736</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJq5azN1N73BIRGDRdGNwQTOA" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card bar-card">
+    <div class="tag green">★ Consigliata · Solo asporto</div>
+    <div class="card-header"><h3>Laboratorio Gabriella — Dolci Tipici Sardi</h3><span class="rating">⭐ 4.8 · 82 rec.</span></div>
+    <p class="desc">Dolci artigianali sardi di qualità eccezionale. Solo acquisto da portare via — perfetti per casa o spiaggia. Chiusa il lunedì. Mar–Sab 8:00–13:00 / 17:00–20:00 · Dom 8:00–13:00.</p>
+    <div class="card-meta"><span>📍 Viale G. Borio 9, Sorso</span><span>📞 <a href="tel:+39079350310" style="color:inherit">079 350310</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJjz3brKxk3BIRepI6fPzCsRY" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🌊</div><h2>Spiagge Vicine</h2></div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🅿️ Parcheggio libero</div>
+    <div class="card-header"><h3>Quarto Pettine</h3></div>
+    <p class="desc">Spiaggia libera con sabbia chiara e acque basse — perfetta per le famiglie. Slargo con parcheggio a pochi passi. Poco frequentata anche ad agosto.</p>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJl8eqiSF93BIRkHSmET0kLbQ" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🅿️ Parcheggio · 🍹 Bar</div>
+    <div class="card-header"><h3>Quinto Pettine</h3></div>
+    <p class="desc">Come il Quarto Pettine ma con bar sul posto. Acque basse, ideale per i bambini. Slargo con parcheggio nelle vicinanze.</p>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJgXx_SAB93BIRxPiu4-Nutd0" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🌿 Natura · 🍹 Bar in loco</div>
+    <div class="card-header"><h3>La Vozza <span style="font-family:'Lato';font-size:0.85rem;font-weight:300;color:#888">— "la Foce" in sorsese</span></h3><span class="rating">⭐ 4.4 · 102 rec.</span></div>
+    <p class="desc">Un angolo unico: il fiume incontra il mare creando un paesaggio affascinante. Bar con prezzi onesti e servizi igienici puliti. Bar aperto 7:30 – 0:30.</p>
+    <div class="card-meta"><span>📍 Discesa a mare 8, Sorso</span><span>📞 <a href="tel:+393533098661" style="color:inherit">353 309 8661</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJa1wm3J973BIRgy-7-Vy5RD4" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🏄</div><h2>Stabilimento Balneare</h2></div>
+
+  <div class="card stab-card">
+    <div class="tag blue">☀️ Sdraio · 🛶 Canoe · 🍽 Ristorante</div>
+    <div class="card-header"><h3>Altamarea — Stabilimento Balneare & Ristorante</h3><span class="rating">⭐ 3.9 · 573 rec.</span></div>
+    <p class="desc">Noleggio sdraio, ombrelloni e canoe. Ristorante con vista sul tramonto. Aperto 7:00 – 24:00. Verificare disponibilità e prezzi per telefono.</p>
+    <div class="card-meta"><span>📍 SP81 n.5, Marina di Sorso</span><span>📞 <a href="tel:+39079310098" style="color:inherit">079 310098</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJlTHvDOl83BIRvYgyeTR67Oc" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="note-box">
+    <h4>📌 Note utili</h4>
+    Verificare sempre gli orari fuori stagione. Per <strong>La Risacca</strong> si consiglia di prenotare in anticipo nei weekend estivi. <strong>Arte Pizza</strong> e <strong>Pasticceria Gabriella</strong> sono chiuse il lunedì.
+  </div>
+</main>
+<footer>Guida curata con ❤️ per i nostri ospiti — Marina di Sorso, Sardegna</footer>
+</div>
+
+<!-- ============================================================ -->
+<!-- ENGLISH -->
+<!-- ============================================================ -->
+<div class="lang-content" id="lang-en">
+<header>
+  <div class="wave-deco">〰 〰 〰</div>
+  <h1>Welcome to Marina di Sorso</h1>
+  <p class="subtitle">Our favourite places — a guide for our guests</p>
+</header>
+<main>
+  <div class="section-title"><div class="icon">🏖️</div><h2>Beach Bars</h2></div>
+
+  <div class="card">
+    <div class="tag">⭐ Speciality: Sandwiches & Platters</div>
+    <div class="card-header"><h3>Pedifreddu</h3><span class="rating">⭐ 4.4 · 108 reviews</span></div>
+    <p class="desc">A landmark right on the beach. The house speciality is freshly made sandwiches and composed platters — perfect for a tasty lunch with a sea view. Open through the afternoon too. Hours: 7:00 AM – 11:30 PM.</p>
+    <div class="card-meta"><span>📍 SP81, Marina di Sorso</span><span>📞 <a href="tel:+390796153515" style="color:inherit">079 615 3515</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJxT42olt93BIRwGiMHfXOznc" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card">
+    <div class="tag">⭐ Speciality: Fried Calamari</div>
+    <div class="card-header"><h3>Baja Cuggoni</h3><span class="rating">⭐ 4.2 · 331 reviews</span></div>
+    <p class="desc">A lively spot at the 9th Pettine, open late into the night. The fried calamari is the star dish. Magical at sunset, with occasional live music and events. Hours: 8:00 AM – 2:00 AM.</p>
+    <div class="card-meta"><span>📍 Discesa a Mare 9 Pettine</span><span>📞 <a href="tel:+393318530235" style="color:inherit">331 853 0235</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJG9hvxQ973BIRc7yWA8_cd_k" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🐟</div><h2>Restaurants</h2></div>
+
+  <div class="card">
+    <div class="tag blue">Fresh fish · Refined atmosphere</div>
+    <div class="card-header"><h3>La Risacca</h3><span class="rating">⭐ 4.2 · 3,238 reviews</span></div>
+    <p class="desc">The ideal choice for a special evening. Impeccably fresh fish, professional staff and a stunning sea-view terrace. Excellent wine list. Booking in advance is strongly recommended. Hours: 7:30 AM – 2:00 AM.</p>
+    <div class="card-meta"><span>📍 SP81, Marina di Sorso</span><span>📞 <a href="tel:+39079359040" style="color:inherit">079 359040</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ4XLmv7dk3BIRCrPkskfdx8k" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card">
+    <div class="tag green">Fresh fish · Great value for money</div>
+    <div class="card-header"><h3>Al Primo Ristobar</h3><span class="rating">⭐ 4.5 · 2,224 reviews</span></div>
+    <p class="desc">Excellent fish, generous portions and very reasonable prices. Authentic local atmosphere — always a good sign. Must-try: fregola with seafood and spaghetti allo scoglio. Hours: 9:00 AM – 11:00 PM.</p>
+    <div class="card-meta"><span>📍 Discesa a mare 7, Sorso</span><span>📞 <a href="tel:+393450754909" style="color:inherit">345 075 4909</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ-W7Kf3173BIRlE17o_xuSPI" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🍕</div><h2>Pizza Delivery</h2></div>
+
+  <div class="card pizza-card">
+    <div class="tag">🔥 Wood-fired oven · Home delivery</div>
+    <div class="card-header"><h3>Arte Pizza</h3><span class="rating">⭐ 4.2 · 128 reviews</span></div>
+    <p class="desc">The best pizza in Sorso, cooked in a wood-fired oven. Also serves sandwiches, fainè (chickpea flatbread) and hot dishes. Open Tue–Sun from 7:00 PM. Closed on Mondays.</p>
+    <div class="card-meta"><span>📍 Piazza Marginesu 14/a, Sorso</span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ6VazDq1k3BIRAr_aBlVxojc" target="_blank">🗺 Google Maps</a>
+    <a class="tel-link" href="tel:+39079350502">📞 079 350502</a>
+  </div>
+
+  <div class="section-title"><div class="icon">☕</div><h2>Breakfast Bars</h2></div>
+
+  <div class="card bar-card">
+    <div class="card-header"><h3>Glamour Café</h3><span class="rating">⭐ 4.7 · 309 reviews</span></div>
+    <p class="desc">One of the most loved bars in Sorso — great coffee, friendly staff and a welcoming atmosphere. Mon–Sat 6:00 AM–9:00 PM · Sun 7:00 AM–2:00 PM.</p>
+    <div class="card-meta"><span>📍 Via Cappuccini 78, Sorso</span><span>📞 <a href="tel:+393498481736" style="color:inherit">349 848 1736</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJq5azN1N73BIRGDRdGNwQTOA" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card bar-card">
+    <div class="tag green">★ Highly recommended · Takeaway only</div>
+    <div class="card-header"><h3>Laboratorio Gabriella — Traditional Sardinian Sweets</h3><span class="rating">⭐ 4.8 · 82 reviews</span></div>
+    <p class="desc">Exceptional handmade Sardinian pastries and sweets — amaretti, flaky brioches and gift boxes. Takeaway only (no seating), perfect for home or beach. Closed Mondays. Tue–Sat 8:00 AM–1:00 PM / 5:00–8:00 PM · Sun 8:00 AM–1:00 PM.</p>
+    <div class="card-meta"><span>📍 Viale G. Borio 9, Sorso</span><span>📞 <a href="tel:+39079350310" style="color:inherit">079 350310</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJjz3brKxk3BIRepI6fPzCsRY" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🌊</div><h2>Nearby Beaches</h2></div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🅿️ Free parking</div>
+    <div class="card-header"><h3>Quarto Pettine (4th Cove)</h3></div>
+    <p class="desc">A free beach with pale sand and shallow, crystal-clear water — ideal for families. There's a wide parking area just a few steps from the shore. Rarely crowded even in August.</p>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJl8eqiSF93BIRkHSmET0kLbQ" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🅿️ Parking · 🍹 Bar on site</div>
+    <div class="card-header"><h3>Quinto Pettine (5th Cove)</h3></div>
+    <p class="desc">Similar to the 4th Cove but with the added bonus of a bar right on the beach. Shallow waters, great for young children. Parking nearby.</p>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJgXx_SAB93BIRxPiu4-Nutd0" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🌿 Nature spot · 🍹 Bar on site</div>
+    <div class="card-header"><h3>La Vozza <span style="font-family:'Lato';font-size:0.85rem;font-weight:300;color:#888">— "The River Mouth" in local dialect</span></h3><span class="rating">⭐ 4.4 · 102 reviews</span></div>
+    <p class="desc">A truly special corner of the coast: "La Vozza" means "the river mouth" in the local Sorso dialect — here a small river meets the sea, creating a uniquely beautiful landscape. The bar offers fair prices and clean facilities. Bar hours: 7:30 AM – 12:30 AM.</p>
+    <div class="card-meta"><span>📍 Discesa a mare 8, Sorso</span><span>📞 <a href="tel:+393533098661" style="color:inherit">353 309 8661</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJa1wm3J973BIRgy-7-Vy5RD4" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🏄</div><h2>Beach Resort</h2></div>
+
+  <div class="card stab-card">
+    <div class="tag blue">☀️ Sun loungers · 🛶 Canoes · 🍽 Restaurant</div>
+    <div class="card-header"><h3>Altamarea — Beach Resort & Restaurant</h3><span class="rating">⭐ 3.9 · 573 reviews</span></div>
+    <p class="desc">The main equipped beach in the area, offering sun lounger and umbrella rental as well as canoe hire to explore the coastline. The attached restaurant is lovely for a dinner with the sunset over the sea. Open 7:00 AM – midnight. Call ahead to check availability and prices.</p>
+    <div class="card-meta"><span>📍 SP81 n.5, Marina di Sorso</span><span>📞 <a href="tel:+39079310098" style="color:inherit">079 310098</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJlTHvDOl83BIRvYgyeTR67Oc" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="note-box">
+    <h4>📌 Useful tips</h4>
+    Opening hours may be reduced outside peak season — always check before heading out. For <strong>La Risacca</strong> we recommend booking ahead, especially on summer weekends. <strong>Arte Pizza</strong> and <strong>Pasticceria Gabriella</strong> are both closed on Mondays.
+  </div>
+</main>
+<footer>Prepared with ❤️ for our guests — Marina di Sorso, Sardinia</footer>
+</div>
+
+<!-- ============================================================ -->
+<!-- FRANÇAIS -->
+<!-- ============================================================ -->
+<div class="lang-content" id="lang-fr">
+<header>
+  <div class="wave-deco">〰 〰 〰</div>
+  <h1>Bienvenue à Marina di Sorso</h1>
+  <p class="subtitle">Nos endroits préférés — un guide pour nos hôtes</p>
+</header>
+<main>
+  <div class="section-title"><div class="icon">🏖️</div><h2>Bars de Plage</h2></div>
+
+  <div class="card">
+    <div class="tag">⭐ Spécialité : Sandwichs & Assiettes composées</div>
+    <div class="card-header"><h3>Pedifreddu</h3><span class="rating">⭐ 4.4 · 108 avis</span></div>
+    <p class="desc">Un repère directement sur la plage. La spécialité maison : sandwichs garnis et assiettes composées préparés à la minute — parfaits pour un déjeuner savoureux face à la mer. Ouvert même l'après-midi. Horaires : 7h00 – 23h30.</p>
+    <div class="card-meta"><span>📍 SP81, Marina di Sorso</span><span>📞 <a href="tel:+390796153515" style="color:inherit">079 615 3515</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJxT42olt93BIRwGiMHfXOznc" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card">
+    <div class="tag">⭐ Spécialité : Calamars frits</div>
+    <div class="card-header"><h3>Baja Cuggoni</h3><span class="rating">⭐ 4.2 · 331 avis</span></div>
+    <p class="desc">Un endroit animé au 9e Pettine, ouvert tard dans la nuit. Les calamars frits sont le plat incontournable. Magique au coucher du soleil, avec musique live et événements. Horaires : 8h00 – 2h00.</p>
+    <div class="card-meta"><span>📍 Discesa a Mare 9 Pettine</span><span>📞 <a href="tel:+393318530235" style="color:inherit">331 853 0235</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJG9hvxQ973BIRc7yWA8_cd_k" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🐟</div><h2>Restaurants</h2></div>
+
+  <div class="card">
+    <div class="tag blue">Poisson frais · Cadre raffiné</div>
+    <div class="card-header"><h3>La Risacca</h3><span class="rating">⭐ 4.2 · 3 238 avis</span></div>
+    <p class="desc">Le choix idéal pour une soirée mémorable. Poisson d'une fraîcheur irréprochable, personnel professionnel et terrasse avec vue imprenable sur la mer. Belle carte des vins. Réservation recommandée. Horaires : 7h30 – 2h00.</p>
+    <div class="card-meta"><span>📍 SP81, Marina di Sorso</span><span>📞 <a href="tel:+39079359040" style="color:inherit">079 359040</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ4XLmv7dk3BIRCrPkskfdx8k" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card">
+    <div class="tag green">Poisson frais · Excellent rapport qualité/prix</div>
+    <div class="card-header"><h3>Al Primo Ristobar</h3><span class="rating">⭐ 4.5 · 2 224 avis</span></div>
+    <p class="desc">Excellent poisson, généreuses portions et prix très abordables. Ambiance authentique, fréquenté par les habitants — toujours bon signe. À ne pas manquer : fregola aux fruits de mer et spaghetti allo scoglio. Horaires : 9h00 – 23h00.</p>
+    <div class="card-meta"><span>📍 Discesa a mare 7, Sorso</span><span>📞 <a href="tel:+393450754909" style="color:inherit">345 075 4909</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ-W7Kf3173BIRlE17o_xuSPI" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🍕</div><h2>Pizza à Domicile</h2></div>
+
+  <div class="card pizza-card">
+    <div class="tag">🔥 Four à bois · Livraison à domicile</div>
+    <div class="card-header"><h3>Arte Pizza</h3><span class="rating">⭐ 4.2 · 128 avis</span></div>
+    <p class="desc">La meilleure pizza de Sorso, cuite au four à bois. Également sandwichs, fainè (galette de pois chiches) et plats chauds. Ouvert mar–dim à partir de 19h00. Fermé le lundi.</p>
+    <div class="card-meta"><span>📍 Piazza Marginesu 14/a, Sorso</span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ6VazDq1k3BIRAr_aBlVxojc" target="_blank">🗺 Google Maps</a>
+    <a class="tel-link" href="tel:+39079350502">📞 079 350502</a>
+  </div>
+
+  <div class="section-title"><div class="icon">☕</div><h2>Bars pour le Petit-Déjeuner</h2></div>
+
+  <div class="card bar-card">
+    <div class="card-header"><h3>Glamour Café</h3><span class="rating">⭐ 4.7 · 309 avis</span></div>
+    <p class="desc">L'un des cafés les plus appréciés de Sorso pour la qualité de son café et l'accueil chaleureux. Lun–Sam 6h00–21h00 · Dim 7h00–14h00.</p>
+    <div class="card-meta"><span>📍 Via Cappuccini 78, Sorso</span><span>📞 <a href="tel:+393498481736" style="color:inherit">349 848 1736</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJq5azN1N73BIRGDRdGNwQTOA" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card bar-card">
+    <div class="tag green">★ Vivement recommandé · Vente à emporter uniquement</div>
+    <div class="card-header"><h3>Laboratorio Gabriella — Douceurs Typiques Sardes</h3><span class="rating">⭐ 4.8 · 82 avis</span></div>
+    <p class="desc">Pâtisseries artisanales sardes d'une qualité exceptionnelle. Vente à emporter uniquement — parfait pour la maison ou la plage. Fermé le lundi. Mar–Sam 8h–13h / 17h–20h · Dim 8h–13h.</p>
+    <div class="card-meta"><span>📍 Viale G. Borio 9, Sorso</span><span>📞 <a href="tel:+39079350310" style="color:inherit">079 350310</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJjz3brKxk3BIRepI6fPzCsRY" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🌊</div><h2>Plages à Proximité</h2></div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🅿️ Parking gratuit</div>
+    <div class="card-header"><h3>Quarto Pettine (4e crique)</h3></div>
+    <p class="desc">Plage libre avec sable clair et eau peu profonde — idéale pour les familles. Espace de stationnement à quelques pas. Peu fréquentée même en août.</p>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJl8eqiSF93BIRkHSmET0kLbQ" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🅿️ Parking · 🍹 Bar sur place</div>
+    <div class="card-header"><h3>Quinto Pettine (5e crique)</h3></div>
+    <p class="desc">Similaire à la 4e crique avec en plus un bar directement sur la plage. Eau peu profonde, parfaite pour les enfants. Parking à proximité.</p>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJgXx_SAB93BIRxPiu4-Nutd0" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🌿 Nature · 🍹 Bar sur place</div>
+    <div class="card-header"><h3>La Vozza <span style="font-family:'Lato';font-size:0.85rem;font-weight:300;color:#888">— "L'Embouchure" en dialecte local</span></h3><span class="rating">⭐ 4.4 · 102 avis</span></div>
+    <p class="desc">Un endroit vraiment unique : "La Vozza" signifie "l'embouchure" dans le dialecte de Sorso — une petite rivière rejoint ici la mer, créant un paysage fascinant. Bar avec des prix honnêtes et sanitaires propres. Horaires bar : 7h30 – 0h30.</p>
+    <div class="card-meta"><span>📍 Discesa a mare 8, Sorso</span><span>📞 <a href="tel:+393533098661" style="color:inherit">353 309 8661</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJa1wm3J973BIRgy-7-Vy5RD4" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🏄</div><h2>Établissement Balnéaire</h2></div>
+
+  <div class="card stab-card">
+    <div class="tag blue">☀️ Transats · 🛶 Canoës · 🍽 Restaurant</div>
+    <div class="card-header"><h3>Altamarea — Plage & Restaurant</h3><span class="rating">⭐ 3.9 · 573 avis</span></div>
+    <p class="desc">Location de transats, parasols et canoës pour explorer le littoral. Restaurant avec vue sur le coucher de soleil. Ouvert 7h00 – minuit. Vérifier disponibilités et tarifs par téléphone.</p>
+    <div class="card-meta"><span>📍 SP81 n.5, Marina di Sorso</span><span>📞 <a href="tel:+39079310098" style="color:inherit">079 310098</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJlTHvDOl83BIRvYgyeTR67Oc" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="note-box">
+    <h4>📌 Conseils pratiques</h4>
+    Les horaires peuvent être réduits hors saison — vérifiez toujours avant de vous déplacer. Pour <strong>La Risacca</strong>, nous recommandons de réserver à l'avance les week-ends d'été. <strong>Arte Pizza</strong> et <strong>Pasticceria Gabriella</strong> sont fermées le lundi.
+  </div>
+</main>
+<footer>Préparé avec ❤️ pour nos hôtes — Marina di Sorso, Sardaigne</footer>
+</div>
+
+<!-- ============================================================ -->
+<!-- DEUTSCH -->
+<!-- ============================================================ -->
+<div class="lang-content" id="lang-de">
+<header>
+  <div class="wave-deco">〰 〰 〰</div>
+  <h1>Willkommen in Marina di Sorso</h1>
+  <p class="subtitle">Unsere Lieblingsplätze — ein Reiseführer für unsere Gäste</p>
+</header>
+<main>
+  <div class="section-title"><div class="icon">🏖️</div><h2>Strand-Bars</h2></div>
+
+  <div class="card">
+    <div class="tag">⭐ Spezialität: Sandwiches & Teller</div>
+    <div class="card-header"><h3>Pedifreddu</h3><span class="rating">⭐ 4.4 · 108 Bewertungen</span></div>
+    <p class="desc">Ein fester Anlaufpunkt direkt am Strand. Die Spezialität des Hauses: frisch zubereitete belegte Sandwiches und zusammengestellte Teller — ideal für ein schmackhaftes Mittagessen mit Meerblick. Auch am Nachmittag geöffnet. Öffnungszeiten: 7:00 – 23:30 Uhr.</p>
+    <div class="card-meta"><span>📍 SP81, Marina di Sorso</span><span>📞 <a href="tel:+390796153515" style="color:inherit">079 615 3515</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJxT42olt93BIRwGiMHfXOznc" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card">
+    <div class="tag">⭐ Spezialität: Frittierte Tintenfischringe</div>
+    <div class="card-header"><h3>Baja Cuggoni</h3><span class="rating">⭐ 4.2 · 331 Bewertungen</span></div>
+    <p class="desc">Ein lebhaftes Lokal am 9. Pettine, bis spät in die Nacht geöffnet. Die frittierten Tintenfischringe sind das Kult-Gericht. Wunderschön bei Sonnenuntergang, mit gelegentlicher Live-Musik. Öffnungszeiten: 8:00 – 2:00 Uhr.</p>
+    <div class="card-meta"><span>📍 Discesa a Mare 9 Pettine</span><span>📞 <a href="tel:+393318530235" style="color:inherit">331 853 0235</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJG9hvxQ973BIRc7yWA8_cd_k" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🐟</div><h2>Restaurants</h2></div>
+
+  <div class="card">
+    <div class="tag blue">Frischer Fisch · Gehobenes Ambiente</div>
+    <div class="card-header"><h3>La Risacca</h3><span class="rating">⭐ 4.2 · 3.238 Bewertungen</span></div>
+    <p class="desc">Die ideale Wahl für einen besonderen Abend. Tadellos frischer Fisch, professionelles Personal und eine atemberaubende Terrasse mit Meerblick. Hervorragende Weinkarte. Reservierung dringend empfohlen. Öffnungszeiten: 7:30 – 2:00 Uhr.</p>
+    <div class="card-meta"><span>📍 SP81, Marina di Sorso</span><span>📞 <a href="tel:+39079359040" style="color:inherit">079 359040</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ4XLmv7dk3BIRCrPkskfdx8k" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card">
+    <div class="tag green">Frischer Fisch · Ausgezeichnetes Preis-Leistungs-Verhältnis</div>
+    <div class="card-header"><h3>Al Primo Ristobar</h3><span class="rating">⭐ 4.5 · 2.224 Bewertungen</span></div>
+    <p class="desc">Ausgezeichneter Fisch, großzügige Portionen und sehr faire Preise. Authentische Atmosphäre, bei Einheimischen beliebt — immer ein gutes Zeichen. Unbedingt probieren: Fregola mit Meeresfrüchten und Spaghetti allo scoglio. Öffnungszeiten: 9:00 – 23:00 Uhr.</p>
+    <div class="card-meta"><span>📍 Discesa a mare 7, Sorso</span><span>📞 <a href="tel:+393450754909" style="color:inherit">345 075 4909</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ-W7Kf3173BIRlE17o_xuSPI" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🍕</div><h2>Pizza-Lieferservice</h2></div>
+
+  <div class="card pizza-card">
+    <div class="tag">🔥 Holzofen · Lieferung nach Hause</div>
+    <div class="card-header"><h3>Arte Pizza</h3><span class="rating">⭐ 4.2 · 128 Bewertungen</span></div>
+    <p class="desc">Die beste Pizza in Sorso, im Holzofen gebacken. Auch Sandwiches, Fainè (Kichererbsen-Fladenbrot) und warme Gerichte. Geöffnet Di–So ab 19:00 Uhr. Montags geschlossen.</p>
+    <div class="card-meta"><span>📍 Piazza Marginesu 14/a, Sorso</span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ6VazDq1k3BIRAr_aBlVxojc" target="_blank">🗺 Google Maps</a>
+    <a class="tel-link" href="tel:+39079350502">📞 079 350502</a>
+  </div>
+
+  <div class="section-title"><div class="icon">☕</div><h2>Frühstückscafés</h2></div>
+
+  <div class="card bar-card">
+    <div class="card-header"><h3>Glamour Café</h3><span class="rating">⭐ 4.7 · 309 Bewertungen</span></div>
+    <p class="desc">Eines der beliebtesten Cafés in Sorso — hervorragender Kaffee und freundliches Personal. Mo–Sa 6:00–21:00 Uhr · So 7:00–14:00 Uhr.</p>
+    <div class="card-meta"><span>📍 Via Cappuccini 78, Sorso</span><span>📞 <a href="tel:+393498481736" style="color:inherit">349 848 1736</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJq5azN1N73BIRGDRdGNwQTOA" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card bar-card">
+    <div class="tag green">★ Sehr empfehlenswert · Nur zum Mitnehmen</div>
+    <div class="card-header"><h3>Laboratorio Gabriella — Sardische Spezialitäten</h3><span class="rating">⭐ 4.8 · 82 Bewertungen</span></div>
+    <p class="desc">Handgefertigte sardische Süßwaren von außergewöhnlicher Qualität. Nur zum Mitnehmen — perfekt für zu Hause oder den Strand. Montags geschlossen. Di–Sa 8:00–13:00 / 17:00–20:00 · So 8:00–13:00 Uhr.</p>
+    <div class="card-meta"><span>📍 Viale G. Borio 9, Sorso</span><span>📞 <a href="tel:+39079350310" style="color:inherit">079 350310</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJjz3brKxk3BIRepI6fPzCsRY" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🌊</div><h2>Nahegelegene Strände</h2></div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🅿️ Kostenloser Parkplatz</div>
+    <div class="card-header"><h3>Quarto Pettine (4. Bucht)</h3></div>
+    <p class="desc">Freier Strand mit hellem Sand und flachem, kristallklarem Wasser — ideal für Familien. Parkplatz nur wenige Schritte entfernt. Auch im August selten überfüllt.</p>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJl8eqiSF93BIRkHSmET0kLbQ" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🅿️ Parkplatz · 🍹 Bar vor Ort</div>
+    <div class="card-header"><h3>Quinto Pettine (5. Bucht)</h3></div>
+    <p class="desc">Ähnlich wie die 4. Bucht, aber mit einer Bar direkt am Strand. Flaches Wasser, ideal für Kleinkinder. Parkplatz in der Nähe.</p>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJgXx_SAB93BIRxPiu4-Nutd0" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🌿 Naturidyll · 🍹 Bar vor Ort</div>
+    <div class="card-header"><h3>La Vozza <span style="font-family:'Lato';font-size:0.85rem;font-weight:300;color:#888">— „Die Flussmündung" im Lokaldialekt</span></h3><span class="rating">⭐ 4.4 · 102 Bewertungen</span></div>
+    <p class="desc">Ein wirklich besonderer Ort: „La Vozza" bedeutet „Flussmündung" im Dialekt von Sorso — hier mündet ein kleiner Fluss ins Meer und schafft eine einzigartig schöne Landschaft. Bar mit fairen Preisen und sauberen Sanitäranlagen. Öffnungszeiten Bar: 7:30 – 0:30 Uhr.</p>
+    <div class="card-meta"><span>📍 Discesa a mare 8, Sorso</span><span>📞 <a href="tel:+393533098661" style="color:inherit">353 309 8661</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJa1wm3J973BIRgy-7-Vy5RD4" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🏄</div><h2>Badeanlage</h2></div>
+
+  <div class="card stab-card">
+    <div class="tag blue">☀️ Liegestühle · 🛶 Kanus · 🍽 Restaurant</div>
+    <div class="card-header"><h3>Altamarea — Badeanlage & Restaurant</h3><span class="rating">⭐ 3.9 · 573 Bewertungen</span></div>
+    <p class="desc">Die wichtigste ausgestattete Strandanlage der Gegend mit Liegestuhl-, Sonnenschirm- und Kanuverleih. Das Restaurant ist ideal für ein Abendessen beim Sonnenuntergang über dem Meer. Geöffnet 7:00 – 24:00 Uhr. Bitte Verfügbarkeit und Preise telefonisch erfragen.</p>
+    <div class="card-meta"><span>📍 SP81 n.5, Marina di Sorso</span><span>📞 <a href="tel:+39079310098" style="color:inherit">079 310098</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJlTHvDOl83BIRvYgyeTR67Oc" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="note-box">
+    <h4>📌 Nützliche Hinweise</h4>
+    Die Öffnungszeiten können außerhalb der Hauptsaison abweichen — bitte vorher prüfen. Für <strong>La Risacca</strong> empfehlen wir an Sommerwochenenden unbedingt zu reservieren. <strong>Arte Pizza</strong> und <strong>Pasticceria Gabriella</strong> sind montags geschlossen.
+  </div>
+</main>
+<footer>Mit ❤️ für unsere Gäste erstellt — Marina di Sorso, Sardinien</footer>
+</div>
+
+<!-- ============================================================ -->
+<!-- ESPAÑOL -->
+<!-- ============================================================ -->
+<div class="lang-content" id="lang-es">
+<header>
+  <div class="wave-deco">〰 〰 〰</div>
+  <h1>Bienvenidos a Marina di Sorso</h1>
+  <p class="subtitle">Nuestros lugares favoritos — una guía para nuestros huéspedes</p>
+</header>
+<main>
+  <div class="section-title"><div class="icon">🏖️</div><h2>Bares de Playa</h2></div>
+
+  <div class="card">
+    <div class="tag">⭐ Especialidad: Bocadillos & Platos combinados</div>
+    <div class="card-header"><h3>Pedifreddu</h3><span class="rating">⭐ 4.4 · 108 reseñas</span></div>
+    <p class="desc">Un punto de referencia directamente en la playa. La especialidad de la casa: bocadillos rellenos y platos combinados preparados al momento — perfectos para un almuerzo sabroso con vistas al mar. Abierto también por la tarde. Horario: 7:00 – 23:30.</p>
+    <div class="card-meta"><span>📍 SP81, Marina di Sorso</span><span>📞 <a href="tel:+390796153515" style="color:inherit">079 615 3515</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJxT42olt93BIRwGiMHfXOznc" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card">
+    <div class="tag">⭐ Especialidad: Calamares fritos</div>
+    <div class="card-header"><h3>Baja Cuggoni</h3><span class="rating">⭐ 4.2 · 331 reseñas</span></div>
+    <p class="desc">Un local animado en el 9° Pettine, abierto hasta altas horas de la noche. Los calamares fritos son el plato estrella. Mágico al atardecer, con música en directo y eventos. Horario: 8:00 – 2:00.</p>
+    <div class="card-meta"><span>📍 Discesa a Mare 9 Pettine</span><span>📞 <a href="tel:+393318530235" style="color:inherit">331 853 0235</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJG9hvxQ973BIRc7yWA8_cd_k" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🐟</div><h2>Restaurantes</h2></div>
+
+  <div class="card">
+    <div class="tag blue">Pescado fresco · Ambiente refinado</div>
+    <div class="card-header"><h3>La Risacca</h3><span class="rating">⭐ 4.2 · 3.238 reseñas</span></div>
+    <p class="desc">La elección ideal para una velada especial. Pescado de una frescura impecable, personal profesional y una terraza con vistas al mar impresionantes. Excelente carta de vinos. Se recomienda reservar con antelación. Horario: 7:30 – 2:00.</p>
+    <div class="card-meta"><span>📍 SP81, Marina di Sorso</span><span>📞 <a href="tel:+39079359040" style="color:inherit">079 359040</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ4XLmv7dk3BIRCrPkskfdx8k" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card">
+    <div class="tag green">Pescado fresco · Excelente relación calidad/precio</div>
+    <div class="card-header"><h3>Al Primo Ristobar</h3><span class="rating">⭐ 4.5 · 2.224 reseñas</span></div>
+    <p class="desc">Excelente pescado, porciones generosas y precios muy asequibles. Ambiente auténtico, frecuentado por los lugareños — siempre buena señal. Imprescindible: fregola con marisco y spaghetti allo scoglio. Horario: 9:00 – 23:00.</p>
+    <div class="card-meta"><span>📍 Discesa a mare 7, Sorso</span><span>📞 <a href="tel:+393450754909" style="color:inherit">345 075 4909</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ-W7Kf3173BIRlE17o_xuSPI" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🍕</div><h2>Pizza a Domicilio</h2></div>
+
+  <div class="card pizza-card">
+    <div class="tag">🔥 Horno de leña · Entrega a domicilio</div>
+    <div class="card-header"><h3>Arte Pizza</h3><span class="rating">⭐ 4.2 · 128 reseñas</span></div>
+    <p class="desc">La mejor pizza de Sorso, cocida en horno de leña. También sirven bocadillos, fainè (torta de garbanzos) y platos calientes. Abierto mar–dom a partir de las 19:00. Cerrado los lunes.</p>
+    <div class="card-meta"><span>📍 Piazza Marginesu 14/a, Sorso</span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJ6VazDq1k3BIRAr_aBlVxojc" target="_blank">🗺 Google Maps</a>
+    <a class="tel-link" href="tel:+39079350502">📞 079 350502</a>
+  </div>
+
+  <div class="section-title"><div class="icon">☕</div><h2>Bares para el Desayuno</h2></div>
+
+  <div class="card bar-card">
+    <div class="card-header"><h3>Glamour Café</h3><span class="rating">⭐ 4.7 · 309 reseñas</span></div>
+    <p class="desc">Uno de los bares más queridos de Sorso por la calidad de su café y la simpatía del personal. Lun–Sab 6:00–21:00 · Dom 7:00–14:00.</p>
+    <div class="card-meta"><span>📍 Via Cappuccini 78, Sorso</span><span>📞 <a href="tel:+393498481736" style="color:inherit">349 848 1736</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJq5azN1N73BIRGDRdGNwQTOA" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card bar-card">
+    <div class="tag green">★ Muy recomendado · Solo para llevar</div>
+    <div class="card-header"><h3>Laboratorio Gabriella — Dulces Típicos Sardos</h3><span class="rating">⭐ 4.8 · 82 reseñas</span></div>
+    <p class="desc">Dulces artesanales sardos de calidad excepcional. Solo para llevar — perfectos para casa o la playa. Cerrado los lunes. Mar–Sab 8:00–13:00 / 17:00–20:00 · Dom 8:00–13:00.</p>
+    <div class="card-meta"><span>📍 Viale G. Borio 9, Sorso</span><span>📞 <a href="tel:+39079350310" style="color:inherit">079 350310</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJjz3brKxk3BIRepI6fPzCsRY" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🌊</div><h2>Playas Cercanas</h2></div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🅿️ Aparcamiento gratuito</div>
+    <div class="card-header"><h3>Quarto Pettine (4ª cala)</h3></div>
+    <p class="desc">Playa libre con arena clara y aguas poco profundas — ideal para familias. Zona de aparcamiento a pocos pasos. Poco concurrida incluso en agosto.</p>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJl8eqiSF93BIRkHSmET0kLbQ" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🅿️ Aparcamiento · 🍹 Bar en la playa</div>
+    <div class="card-header"><h3>Quinto Pettine (5ª cala)</h3></div>
+    <p class="desc">Similar a la 4ª cala pero con bar directamente en la playa. Aguas poco profundas, perfectas para niños pequeños. Aparcamiento cercano.</p>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJgXx_SAB93BIRxPiu4-Nutd0" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="card beach-card">
+    <div class="tag gold">🌿 Naturaleza · 🍹 Bar en la playa</div>
+    <div class="card-header"><h3>La Vozza <span style="font-family:'Lato';font-size:0.85rem;font-weight:300;color:#888">— "La Desembocadura" en dialecto local</span></h3><span class="rating">⭐ 4.4 · 102 reseñas</span></div>
+    <p class="desc">Un rincón verdaderamente especial: "La Vozza" significa "la desembocadura" en el dialecto de Sorso — aquí un pequeño río desemboca en el mar creando un paisaje fascinante y único. Bar con precios honetos y aseos limpios. Horario bar: 7:30 – 0:30.</p>
+    <div class="card-meta"><span>📍 Discesa a mare 8, Sorso</span><span>📞 <a href="tel:+393533098661" style="color:inherit">353 309 8661</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJa1wm3J973BIRgy-7-Vy5RD4" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="section-title"><div class="icon">🏄</div><h2>Establecimiento de Playa</h2></div>
+
+  <div class="card stab-card">
+    <div class="tag blue">☀️ Tumbonas · 🛶 Canoas · 🍽 Restaurante</div>
+    <div class="card-header"><h3>Altamarea — Playa & Restaurante</h3><span class="rating">⭐ 3.9 · 573 reseñas</span></div>
+    <p class="desc">El principal establecimiento equipado de la zona, con alquiler de tumbonas, sombrillas y canoas para explorar la costa. El restaurante es ideal para cenar viendo el atardecer sobre el mar. Abierto 7:00 – medianoche. Consultar disponibilidad y precios por teléfono.</p>
+    <div class="card-meta"><span>📍 SP81 n.5, Marina di Sorso</span><span>📞 <a href="tel:+39079310098" style="color:inherit">079 310098</a></span></div>
+    <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJlTHvDOl83BIRvYgyeTR67Oc" target="_blank">🗺 Google Maps</a>
+  </div>
+
+  <div class="note-box">
+    <h4>📌 Consejos útiles</h4>
+    Los horarios pueden reducirse fuera de temporada — verifique siempre antes de salir. Para <strong>La Risacca</strong> recomendamos reservar con antelación los fines de semana de verano. <strong>Arte Pizza</strong> y <strong>Pasticceria Gabriella</strong> están cerradas los lunes.
+  </div>
+</main>
+<footer>Preparado con ❤️ para nuestros huéspedes — Marina di Sorso, Cerdeña</footer>
+</div>
+
+<script>
+  function setLang(lang) {
+    document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('visible'));
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('lang-' + lang).classList.add('visible');
+    event.target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
